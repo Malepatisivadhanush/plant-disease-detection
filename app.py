@@ -20,7 +20,7 @@ IMG_SIZE = (224, 224)
 MODEL_PATH = 'mobilenetv2_final.keras'
 
 # ── Gemini API Setup ───────────────────────────────────────────────────────────
-GEMINI_API_KEY = "AIzaSyBRE7pxr2EmtRB5pDPVrR1SPerrGAo28hE"   # ← paste your key from aistudio.google.com
+GEMINI_API_KEY = "paste your key"   # ← paste your key from aistudio.google.com
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 try:

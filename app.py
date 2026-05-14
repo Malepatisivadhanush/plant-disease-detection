@@ -17,10 +17,10 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 IMG_SIZE = (224, 224)
-MODEL_PATH = '/Users/satwikreddy/Desktop/gen ai/PlantCare_AI/models/mobilenetv2_final.keras'
+MODEL_PATH = 'mobilenetv2_final.keras'
 
 # ── Gemini API Setup ───────────────────────────────────────────────────────────
-GEMINI_API_KEY = "Enter your API KEY"   # ← paste your key from aistudio.google.com
+GEMINI_API_KEY = "AIzaSyBRE7pxr2EmtRB5pDPVrR1SPerrGAo28hE"   # ← paste your key from aistudio.google.com
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 try:
@@ -28,10 +28,10 @@ try:
         model='gemini-2.5-flash',
         contents='say ok', 
     )
-    print("✅ Gemini API connected successfully")
+    print("Gemini API connected successfully")
 except Exception as e:
-    print(f"❌ Gemini API connection failed: {e}")
-    print("⚠️  App will use fallback recommendations")
+    print(f"Gemini API connection failed: {e}")
+    print("App will use fallback recommendations")
 # ── Auto-parse all disease info directly from class_indices.json ───────────────
 def parse_class_label(class_label):
     """
@@ -82,7 +82,7 @@ DISEASE_INFO = {
     label: parse_class_label(label)
     for label in class_indices_raw.keys()
 }
-print(f"✅ Auto-parsed {len(DISEASE_INFO)} disease classes from dataset")
+print(f"Auto-parsed {len(DISEASE_INFO)} disease classes from dataset")
 
 # ── TensorFlow Model ───────────────────────────────────────────────────────────
 model      = None
@@ -93,9 +93,9 @@ def load_model():
     try:
         model       = tf.keras.models.load_model(MODEL_PATH)
         class_names = {v: k for k, v in class_indices_raw.items()}
-        print(f"✅ TF Model loaded — {len(class_names)} classes")
+        print(f"TF Model loaded - {len(class_names)} classes")
     except Exception as e:
-        print(f"❌ Error loading model: {e}")
+        print(f"Error loading model: {e}")
 
 
 def allowed_file(filename):
@@ -150,7 +150,7 @@ Rules:
         return recommendations[:5]
 
     except Exception as e:
-        print(f"⚠️ Gemini recommendations error: {e}")
+        print(f"Gemini recommendations error: {e}")
         return None  # triggers fallback
 
 
@@ -216,7 +216,7 @@ def predict_image(filepath):
     class_label = class_names[predicted_idx].strip()
     info        = DISEASE_INFO.get(class_label, parse_class_label(class_label))
 
-    print(f"DEBUG — '{class_label}' | {confidence:.1f}% | {info['severity']}")
+    print(f"DEBUG - '{class_label}' | {confidence:.1f}% | {info['severity']}")
 
     # Get Gemini AI recommendations
     ai_recs = get_ai_recommendations(
@@ -376,7 +376,7 @@ Guidelines:
         return jsonify({'reply': reply})
 
     except Exception as e:
-        print(f"❌ Chat error: {e}")
+        print(f"Chat error: {e}")
         return jsonify({'reply': f"Sorry, I'm having trouble right now. Error: {str(e)}"}), 500
 
 
